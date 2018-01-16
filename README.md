@@ -11,7 +11,11 @@ Every gun-ui- element has just 2 required attributes "soul" and "prop" that will
 
 
 ## Dependencies
-Like all Gun-Ui elements, `gun-ui-data-provider` requires `gun-ui` to be placed in your main document. Please read the [docs for `gun-ui`](https://github.com/Stefdv/gun-ui)
+Offcourse you'll need [Gun](https://github.com/amark/gun)
+Like all Gun-Ui elements, `gun-ui-data-provider` requires `gun-ui` to be placed in your main document.
+
+Please read the [docs for `gun-ui`](https://github.com/Stefdv/gun-ui)
+
 
 
 ## But Why?
