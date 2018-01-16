@@ -1,0 +1,79 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../gun-ui/gun-ui-mixin-api.html">
+<dom-module id="gun-ui-data-provider">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+  </template>
+
+  <script>
+    /**
+     * `gun-ui-data-provider`
+     * 
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class GunUiDataProvider extends GunUi.MixinAPI(Polymer.Element) {
+      static get is() { return 'gun-ui-data-provider'; }
+      static get properties() {
+        return {
+           items : {
+            type:Array,
+            value:function() { return []},
+            notify:true
+          },
+          list : {
+            type:Array,
+            notify:true
+          },
+          size:{type:Number,value:0,notify:true},
+          loading:{type:Boolean,notify:true},
+          _listen:Boolean,
+          _lookup:{
+            type:Object,
+            value: () => { return {} }
+          }
+        };
+      }
+
+      constructor() {
+        super();
+        this._listen = false;
+      }
+
+      hasGun() {
+
+        this.soul && this._subscribeSoul()
+      }
+
+      _subscribeSoul() {
+        GunUi.gun.get(this.soul).path(this.prop).onward( (change,field) => {
+          //if(this._listen) {
+            let soul = field[field.length-1]
+            change.soul = soul
+            if(!this._lookup[soul]) { // it's a new entry
+              this._lookup[soul] = this.items.length-1;
+              this.push('items',change)
+            } else { // we already have this soul but it is changed
+              // replace item in array
+              let index = this._lookup[soul]
+
+              this.splice('items',index,1,change)
+            }
+       //   }
+          
+        });
+        this._listen = true;
+      }
+
+
+    }
+
+    window.customElements.define(GunUiDataProvider.is, GunUiDataProvider);
+  </script>
+</dom-module>
